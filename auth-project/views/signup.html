@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="w-2/3 h-screen bg-cover bg-center" style="background-image: url('https://img.freepik.com/free-vector/flat-geometric-background_23-2149325694.jpg?size=626&ext=jpg');"></div>
+        <div class="w-1/3 h-screen bg-white flex items-center justify-center p-8 shadow-lg">
+            <div class="w-full">
+                <h2 class="text-2xl font-bold mb-6 text-center">Create an account!</h2>
+                <p class="text-center mb-6 text-gray-600">Enter your details below to create an account and get started.</p>
+                <form id="signupForm">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="full-name" class="block text-gray-700">Full Name</label>
+                            <input type="text" id="full-name" name="fullName" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="enter your full name...">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700">Email</label>
+                            <input type="email" id="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="enter your email...">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="date-of-birth" class="block text-gray-700">Date of Birth</label>
+                            <input type="date" id="date-of-birth" name="dateOfBirth" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                        </div>
+                        <div>
+                            <label for="phone-number" class="block text-gray-700">Phone Number</label>
+                            <input type="text" id="phone-number" name="phoneNumber" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="enter your phone number...">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="block text-gray-700">Password</label>
+                        <input type="password" id="password" name="password" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="enter your password...">
+                    </div>
+                    <button type="submit" class="w-full bg-green-700 text-white py-2 rounded-md hover:bg-green-800">Create an account</button>
+                </form>
+                <p class="mt-4 text-center text-gray-600">Already have an account? <a href="login.html" class="text-orange-500">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('full-name').value;
+            const email = document.getElementById('email').value;
+            const dateOfBirth = document.getElementById('date-of-birth').value;
+            const phoneNumber = document.getElementById('phone-number').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ fullName, email, dateOfBirth, phoneNumber, password })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                alert('Signup successful');
+                console.log('Token:', data.token);
+                // You can redirect or do other actions here
+            } else {
+                alert(data.msg);
+            }
+        });
+    </script>
+</body>
+</html>
